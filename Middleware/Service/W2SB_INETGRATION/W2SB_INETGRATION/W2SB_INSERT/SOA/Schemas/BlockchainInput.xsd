@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.BlockchainInput.org"
+            targetNamespace="http://www.BlockchainInput.org" elementFormDefault="qualified">
+  <xsd:element name="Root">
+    <xsd:annotation>
+      <xsd:documentation>A sample element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="CustomerID" type="xsd:string"/>
+        <xsd:element name="AddressID" type="xsd:string"/>
+        <xsd:element name="BankID" type="xsd:string"/>
+        <xsd:element name="ApplicationID" type="xsd:string"/>
+        <xsd:element name="LoanID" type="xsd:string"/>
+        <xsd:element name="Name" type="xsd:string"/>
+        <xsd:element name="DOB" type="xsd:string"/>
+        <xsd:element name="Gender" type="xsd:string"/>
+        <xsd:element name="PhNo" type="xsd:string"/>
+        <xsd:element name="Email" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://xmlns.oracle.com/adfm/application" version="12.2.1.0.31" id="DataBindings"
+             SeparateXMLFiles="false" Package="loanapproval" ClientType="Generic">
+  <pageMap>
+    <page path="/ManagerApproval_TaskDetails.jspx" usageId="loanapproval_ManagerApproval_TaskDetailsPageDef"/>
+    <page path="/ManagerApproval_TaskNotification.jspx" usageId="loanapproval_ManagerApproval_TaskNotificationPageDef"/>
+  </pageMap>
+  <pageDefinitionUsages>
+    <page id="loanapproval_ManagerApproval_TaskDetailsPageDef"
+          path="loanapproval.pageDefs.ManagerApproval_TaskDetailsPageDef"/>
+    <page id="loanapproval_ManagerApproval_TaskNotificationPageDef"
+          path="loanapproval.pageDefs.ManagerApproval_TaskNotificationPageDef"/>
+  </pageDefinitionUsages>
+  <dataControlUsages>
+    <dc id="LoanApproval_ManagerApproval" path="loanapproval.LoanApproval_ManagerApproval"/>
+  </dataControlUsages>
+</Application>

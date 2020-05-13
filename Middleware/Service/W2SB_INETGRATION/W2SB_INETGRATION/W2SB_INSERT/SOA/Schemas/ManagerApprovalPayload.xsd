@@ -1,0 +1,16 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<schema targetNamespace="http://xmlns.oracle.com/bpel/workflow/task" xmlns:tns="http://xmlns.oracle.com/bpel/workflow/task" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <complexType name="ManagerApprovalPayloadType">
+      <sequence>
+         <element name="CustomerName" type="xsd:string"/>
+         <element name="LoanAmount" type="xsd:string"/>
+         <element name="EMI" type="xsd:string"/>
+         <element name="Tenure" type="xsd:string"/>
+         <element name="DOB" type="xsd:string"/>
+         <element name="Occupation" type="xsd:string"/>
+         <element name="ExistingLoan" type="xsd:string"/>
+         <element name="Salary" type="xsd:string"/>
+         <element name="Mortgage" type="xsd:string"/>
+      </sequence>
+   </complexType>
+</schema>

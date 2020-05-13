@@ -1,0 +1,30 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="W2SB_BPELProcess"
+     targetNamespace="http://xmlns.oracle.com/W2SB_INETGRATION/W2SB_INSERT/W2SB_BPELProcess"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/W2SB_INETGRATION/W2SB_INSERT/W2SB_BPELProcess"
+     xmlns:ns1="http://www.W2SB_BPEL_SCHEMA.org"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns2="http://www.BlockchainInput.org"
+    >
+    <plnk:partnerLinkType name="W2SB_BPELProcess">
+        <plnk:role name="W2SB_BPELProcessProvider" portType="client:W2SB_BPELProcess"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://www.W2SB_BPEL_SCHEMA.org" schemaLocation="../Schemas/W2SB_BPEL_SCHEMA.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://www.BlockchainInput.org" schemaLocation="../Schemas/BlockchainInput.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="W2SB_BPELProcessRequestMessage">
+        <wsdl:part name="payload" element="ns1:W2SBDataCollections"/>
+    </wsdl:message>
+    <wsdl:portType name="W2SB_BPELProcess">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:W2SB_BPELProcessRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

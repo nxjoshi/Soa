@@ -1,0 +1,28 @@
+<wsdl:definitions
+     name="W2SB_DB"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/W2SB_INETGRATION/W2SB_INSERT/W2SB_DB"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/W2SB_INETGRATION/W2SB_INSERT/W2SB_DB"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/W2SB_DB"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="W2SB_DB_plt" >
+    <plt:role name="W2SB_DB_role" >
+      <plt:portType name="tns:W2SB_DB_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/W2SB_DB" schemaLocation="../Schemas/W2SB_DB_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="W2SbCustomerDetailsCollection_msg">
+        <wsdl:part name="W2SbCustomerDetailsCollection" element="top:W2SbCustomerDetailsCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="W2SB_DB_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:W2SbCustomerDetailsCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

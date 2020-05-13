@@ -1,0 +1,17 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<xsd:schema xmlns:ns0="http://emi_calculator/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://emi_calculator/">
+    <xsd:complexType name="emi_calculator">
+        <xsd:sequence>
+            <xsd:element name="arg0" type="xsd:float"/>
+            <xsd:element name="arg1" type="xsd:float"/>
+            <xsd:element name="arg2" type="xsd:float"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="emi_calculatorResponse">
+        <xsd:sequence>
+            <xsd:element name="return" type="xsd:float"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="emi_calculator" type="ns0:emi_calculator"/>
+    <xsd:element name="emi_calculatorResponse" type="ns0:emi_calculatorResponse"/>
+</xsd:schema>

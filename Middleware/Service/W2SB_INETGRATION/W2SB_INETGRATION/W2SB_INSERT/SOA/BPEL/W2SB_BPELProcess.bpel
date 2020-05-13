@@ -1,0 +1,569 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Apr 29 17:48:21 IST 2020
+  Author:  oracle
+  Type: BPEL 2.0 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="W2SB_BPELProcess"
+               targetNamespace="http://xmlns.oracle.com/W2SB_INETGRATION/W2SB_INSERT/W2SB_BPELProcess"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/W2SB_INETGRATION/W2SB_INSERT/W2SB_BPELProcess"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/W2SB_INETGRATION/W2SB_INSERT/W2SB_DB"
+         xmlns:ns3="http://www.W2SB_MASTER_BPEL.org" xmlns:ns2="http://www.W2SB_BPEL_SCHEMA.org"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/top/W2SB_DB"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/W2SB_INETGRATION/W2SB_INSERT/GetID"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns6="json"
+         queryLanguage="http://www.w3.org/TR/1999/REC-xpath-19991116"
+         suppressJoinFailure="no" exitOnStandardFault="no" xmlns:ns7="http://www.BlockchainInput.org"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/W2SB_INETGRATION/W2SB_INSERT/UpdateTxnID"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/UpdateTxnID"
+         xmlns:ns10="http://xmlns.oracle.com/W2SB_INETGRATION/LoanBR/LoanMediator" xmlns:ns11="http://www.rules.org"
+         xmlns:ns12="http://emi_calculator/" xmlns:ns13="http://emical/"
+         xmlns:ns14="http://xmlns.oracle.com/bpel/workflow/taskService"
+         xmlns:task="http://xmlns.oracle.com/bpel/workflow/task"
+         xmlns:wfcommon="http://xmlns.oracle.com/bpel/workflow/common"
+         xmlns:ns15="http://xmlns.oracle.com/bpel/workflow/TaskEvidenceService"
+         xmlns:wf="http://schemas.oracle.com/bpel/extensions/workflow"
+         xmlns:ns16="http://xmlns.oracle.com/bpel/workflow/routingSlip">
+  <import namespace="http://www.BlockchainInput.org" location="../Schemas/BlockchainInput.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/W2SB_INETGRATION/W2SB_INSERT/W2SB_BPELProcess" location="../WSDLs/W2SB_BPELProcess.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="w2sb_bpelprocess_client" partnerLinkType="client:W2SB_BPELProcess" myRole="W2SB_BPELProcessProvider"/>
+    <partnerLink name="W2SB_DB" partnerLinkType="ns1:W2SB_DB_plt" partnerRole="W2SB_DB_role"/>
+    <partnerLink name="CallBlockchainOSB" bpelx:wadl="yes"/>
+    <partnerLink name="UpdateTxnID" partnerLinkType="ns8:UpdateTxnID_plt" partnerRole="UpdateTxnID_role"/>
+    <partnerLink name="CallLoanBR" partnerLinkType="ns10:CallLoanBR" partnerRole="execute_ptt"/>
+    <partnerLink name="Java" partnerLinkType="ns13:Java" partnerRole="Myclass"/>
+    <partnerLink name="ManagerApproval.TaskService" partnerLinkType="ns14:TaskService" partnerRole="TaskService"
+                 myRole="TaskServiceCallbackListener"/>
+  </partnerLinks>
+  <variables>
+    <variable name="inputVariable" messageType="client:W2SB_BPELProcessRequestMessage"/>
+    <variable name="InvokeW2SB_DB_insert_InputVariable" messageType="ns1:W2SbCustomerDetailsCollection_msg"/>
+    <variable name="InputBlockchainOSB" bpelx:json="object"/>
+    <variable name="OutputBlockchainOSB" bpelx:json="object"/>
+    <variable name="Blockchain" element="ns7:Root"/>
+    <variable name="CustID" type="xsd:decimal"/>
+    <variable name="BankID" type="xsd:decimal"/>
+    <variable name="LoanID" type="xsd:decimal"/>
+    <variable name="ApplicationID" type="xsd:decimal"/>
+    <variable name="AddressID" type="xsd:decimal"/>
+    <variable name="Name" type="xsd:string"/>
+    <variable name="DOB" type="xsd:string"/>
+    <variable name="Gender" type="xsd:string"/>
+    <variable name="PhNo" type="xsd:string"/>
+    <variable name="Email" type="xsd:string"/>
+    <variable name="TxnID" type="xsd:string"/>
+    <variable name="InvokeUpdateTxnID_UpdateTxnID_InputVariable" messageType="ns8:UpdateTxnIDInput_msg"/>
+    <variable name="InvokeLoanBR_execute_InputVariable" messageType="ns10:requestMessage"/>
+    <variable name="InvokeLoanBR_execute_OutputVariable" messageType="ns10:replyMessage"/>
+    <variable name="RateOfInterest" type="xsd:decimal"/>
+    <variable name="EMI" type="xsd:decimal"/>
+    <variable name="ROI_pm" type="xsd:decimal"/>
+    <variable name="InvokeJava_emi_calculator_InputVariable" messageType="ns13:emi_calculator"/>
+    <variable name="InvokeJava_emi_calculator_OutputVariable" messageType="ns13:emi_calculatorResponse"/>
+    <variable name="LoanStatus" type="xsd:string"/>
+    <variable name="ManagerApproval1_globalVariable" messageType="ns14:taskMessage"/>
+    <variable name="LoanAmount" type="xsd:string"/>
+    <variable name="emi" type="xsd:string"/>
+    <variable name="tenure" type="xsd:string"/>
+    <variable name="salary" type="xsd:string"/>
+    <variable name="collateral" type="xsd:string"/>
+    <variable name="status" type="xsd:string"/>
+  </variables>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in W2SB_BPELProcess.wsdl) -->
+    <receive name="receiveInput" partnerLink="w2sb_bpelprocess_client" portType="client:W2SB_BPELProcess" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="AssignIDs">
+      <copy>
+        <from>ora:getFlowId()</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$CustID</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:loanAmt</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$LoanAmount</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:Tenure</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$tenure</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:salary</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$salary</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:Mortgage</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$collateral</to>
+      </copy>
+      <copy>
+        <from>ora:getFlowId()+10</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$BankID</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:name</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Name</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:dob</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$DOB</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:gender</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Gender</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:phNo</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$PhNo</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:email</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Email</to>
+      </copy>
+      <copy>
+        <from>ora:getFlowId()+20</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ApplicationID</to>
+      </copy>
+      <copy>
+        <from>ora:getFlowId()+30</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$LoanID</to>
+      </copy>
+      <copy>
+        <from>ora:getFlowId()+40</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$AddressID</to>
+      </copy>
+    </assign>
+    <assign name="AssignTenure">
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:Tenure</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeLoanBR_execute_InputVariable.request/ns11:Tenure</to>
+      </copy>
+    </assign>
+    <invoke name="InvokeLoanBR" partnerLink="CallLoanBR" portType="ns10:execute_ptt"
+            operation="execute" inputVariable="InvokeLoanBR_execute_InputVariable"
+            outputVariable="InvokeLoanBR_execute_OutputVariable" bpelx:invokeAsDetail="no"/>
+    <assign name="AssignROI">
+      <copy>
+        <from>$InvokeLoanBR_execute_OutputVariable.reply/ns11:ROI</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$RateOfInterest</to>
+      </copy>
+    </assign>
+    <assign name="Assign2">
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:Tenure</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeJava_emi_calculator_InputVariable.parameters/arg2</to>
+      </copy>
+      <copy>
+        <from>$RateOfInterest</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeJava_emi_calculator_InputVariable.parameters/arg1</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:loanAmt</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeJava_emi_calculator_InputVariable.parameters/arg0</to>
+      </copy>
+    </assign>
+    <invoke name="InvokeJava" partnerLink="Java" portType="ns13:Myclass"
+            operation="emi_calculator" inputVariable="InvokeJava_emi_calculator_InputVariable"
+            outputVariable="InvokeJava_emi_calculator_OutputVariable" bpelx:invokeAsDetail="no"/>
+    <scope name="ManagerApproval2" xmlns:wf="http://schemas.oracle.com/bpel/extensions/workflow"
+           wf:key="ManagerApproval1_globalVariable">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:workflow"></bpelx:pattern>
+      </bpelx:annotation>
+      <variables>
+        <variable name="initiateTaskInput" messageType="ns14:initiateTaskMessage"/>
+        <variable name="initiateTaskResponseMessage" messageType="ns14:initiateTaskResponseMessage"/>
+      </variables>
+      <sequence>
+        <assign name="ManagerApproval2_AssignTaskAttributes">
+          <copy>
+            <from>number(2)</from>
+            <to variable="initiateTaskInput" part="payload"><query>task:task/task:priority</query></to>
+          </copy>
+          <copy>
+            <from>number(2)</from>
+            <to variable="initiateTaskInput" part="payload"><query>task:task/task:priority</query></to>
+          </copy>
+          <copy>
+            <from><literal><payload xmlns="http://xmlns.oracle.com/bpel/workflow/task">
+ <CustomerName xmlns="http://xmlns.oracle.com/bpel/workflow/task"/>
+ <LoanAmount xmlns="http://xmlns.oracle.com/bpel/workflow/task"/>
+ <EMI xmlns="http://xmlns.oracle.com/bpel/workflow/task"/>
+ <Tenure xmlns="http://xmlns.oracle.com/bpel/workflow/task"/>
+ <DOB xmlns="http://xmlns.oracle.com/bpel/workflow/task"/>
+ <Occupation xmlns="http://xmlns.oracle.com/bpel/workflow/task"/>
+ <ExistingLoan xmlns="http://xmlns.oracle.com/bpel/workflow/task"/>
+ <Salary xmlns="http://xmlns.oracle.com/bpel/workflow/task"/>
+ <Mortgage xmlns="http://xmlns.oracle.com/bpel/workflow/task"/>
+</payload></literal></from>
+            <to variable="initiateTaskInput" part="payload"><query>task:task/task:payload</query></to>
+          </copy>
+          <copy>
+            <from variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:name</query></from>
+            <to variable="initiateTaskInput" part="payload"><query>task:task/task:payload/task:CustomerName</query></to>
+          </copy>
+          <copy>
+            <from variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:loanAmt</query></from>
+            <to variable="initiateTaskInput" part="payload"><query>task:task/task:payload/task:LoanAmount</query></to>
+          </copy>
+          <copy>
+            <from variable="InvokeJava_emi_calculator_OutputVariable" part="parameters"><query>return</query></from>
+            <to variable="initiateTaskInput" part="payload"><query>task:task/task:payload/task:EMI</query></to>
+          </copy>
+          <copy>
+            <from variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:Tenure</query></from>
+            <to variable="initiateTaskInput" part="payload"><query>task:task/task:payload/task:Tenure</query></to>
+          </copy>
+          <copy>
+            <from variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:dob</query></from>
+            <to variable="initiateTaskInput" part="payload"><query>task:task/task:payload/task:DOB</query></to>
+          </copy>
+          <copy>
+            <from variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:occupation</query></from>
+            <to variable="initiateTaskInput" part="payload"><query>task:task/task:payload/task:Occupation</query></to>
+          </copy>
+          <copy>
+            <from variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:existingLoan</query></from>
+            <to variable="initiateTaskInput" part="payload"><query>task:task/task:payload/task:ExistingLoan</query></to>
+          </copy>
+          <copy>
+            <from variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:salary</query></from>
+            <to variable="initiateTaskInput" part="payload"><query>task:task/task:payload/task:Salary</query></to>
+          </copy>
+          <copy>
+            <from variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:Mortgage</query></from>
+            <to variable="initiateTaskInput" part="payload"><query>task:task/task:payload/task:Mortgage</query></to>
+          </copy>
+        </assign>
+        <invoke name="initiateTask_ManagerApproval2" partnerLink="ManagerApproval.TaskService" operation="initiateTask"
+                portType="ns14:TaskService" inputVariable="initiateTaskInput"
+                outputVariable="initiateTaskResponseMessage"/>
+        <receive name="receiveCompletedTask_ManagerApproval2" partnerLink="ManagerApproval.TaskService"
+                 portType="ns14:TaskServiceCallback" operation="onTaskCompleted"
+                 variable="ManagerApproval1_globalVariable" createInstance="no"/>
+      </sequence>
+    </scope>
+    <if name="taskIf">
+      <documentation>
+        <![CDATA[Task outcome is APPROVE]]>
+      </documentation>
+      <condition>$ManagerApproval1_globalVariable.payload/task:systemAttributes/task:outcome = 'APPROVE'</condition>
+      <sequence>
+        <assign name="CopyPayloadFromTask">
+          <copy>
+            <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:CustomerName</query></from>
+            <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:name</query></to>
+          </copy>
+          <copy>
+            <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:LoanAmount</query></from>
+            <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:loanAmt</query></to>
+          </copy>
+          <copy>
+            <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:EMI</query></from>
+            <to variable="InvokeJava_emi_calculator_OutputVariable" part="parameters"><query>return</query></to>
+          </copy>
+          <copy>
+            <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:Tenure</query></from>
+            <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:Tenure</query></to>
+          </copy>
+          <copy>
+            <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:DOB</query></from>
+            <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:dob</query></to>
+          </copy>
+          <copy>
+            <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:Occupation</query></from>
+            <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:occupation</query></to>
+          </copy>
+          <copy>
+            <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:ExistingLoan</query></from>
+            <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:existingLoan</query></to>
+          </copy>
+          <copy>
+            <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:Salary</query></from>
+            <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:salary</query></to>
+          </copy>
+          <copy>
+            <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:Mortgage</query></from>
+            <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:Mortgage</query></to>
+          </copy>
+        </assign>
+        <assign name="Assign3">
+          <copy>
+            <from>$ManagerApproval1_globalVariable.payload/task:systemAttributes/task:outcome</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$LoanStatus</to>
+          </copy>
+          <copy>
+            <from>$ManagerApproval1_globalVariable.payload/task:systemAttributes/task:outcome</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$status</to>
+          </copy>
+        </assign>
+      </sequence>
+      <elseif>
+        <documentation>
+          <![CDATA[Task outcome is REJECT]]>
+        </documentation>
+        <condition>$ManagerApproval1_globalVariable.payload/task:systemAttributes/task:outcome = 'REJECT'</condition>
+        <sequence>
+          <assign name="CopyPayloadFromTask">
+            <copy>
+              <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:CustomerName</query></from>
+              <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:name</query></to>
+            </copy>
+            <copy>
+              <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:LoanAmount</query></from>
+              <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:loanAmt</query></to>
+            </copy>
+            <copy>
+              <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:EMI</query></from>
+              <to variable="InvokeJava_emi_calculator_OutputVariable" part="parameters"><query>return</query></to>
+            </copy>
+            <copy>
+              <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:Tenure</query></from>
+              <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:Tenure</query></to>
+            </copy>
+            <copy>
+              <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:DOB</query></from>
+              <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:dob</query></to>
+            </copy>
+            <copy>
+              <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:Occupation</query></from>
+              <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:occupation</query></to>
+            </copy>
+            <copy>
+              <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:ExistingLoan</query></from>
+              <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:existingLoan</query></to>
+            </copy>
+            <copy>
+              <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:Salary</query></from>
+              <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:salary</query></to>
+            </copy>
+            <copy>
+              <from variable="ManagerApproval1_globalVariable" part="payload"><query>task:payload/task:Mortgage</query></from>
+              <to variable="inputVariable" part="payload"><query>ns2:W2SbCustomerDetails/ns2:applicationId/ns3:Mortgage</query></to>
+            </copy>
+          </assign>
+          <assign name="Assign4">
+            <copy>
+              <from>$ManagerApproval1_globalVariable.payload/task:systemAttributes/task:outcome</from>
+              <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$LoanStatus</to>
+            </copy>
+            <copy>
+              <from>$ManagerApproval1_globalVariable.payload/task:systemAttributes/task:outcome</from>
+              <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$status</to>
+            </copy>
+          </assign>
+        </sequence>
+      </elseif>
+    </if>
+    <assign name="AssignInputToDB">
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:name</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:name</to>
+      </copy>
+      <copy>
+        <from>$InvokeJava_emi_calculator_OutputVariable.parameters/return</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$emi</to>
+      </copy>
+      <copy>
+        <from>$LoanStatus</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:loanStatus</to>
+      </copy>
+      <copy>
+        <from>$InvokeJava_emi_calculator_OutputVariable.parameters/return</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:loanId/ns4:emi</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:dob</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:dob</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:gender</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:gender</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:phNo</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:phNo</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:email</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:email</to>
+      </copy>
+      <copy>
+        <from>"New"</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:txnId</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:addressId/ns3:line1</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:addressId/ns4:line1</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:addressId/ns3:line2</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:addressId/ns4:line2</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:addressId/ns3:state</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:addressId/ns4:state1</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:addressId/ns3:country</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:addressId/ns4:country</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:bankId/ns3:bankName</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:bankId/ns4:bankName</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:bankId/ns3:acNo</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:bankId/ns4:acNo</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:bankId/ns3:acType</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:bankId/ns4:acType</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:bankId/ns3:branchName</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:bankId/ns4:branchName</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:bankId/ns3:currentBalance</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:bankId/ns4:currentBalance</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:category</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:applicationId/ns4:category</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:loanAmt</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:applicationId/ns4:loanAmt</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:occupation</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:applicationId/ns4:occupation</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:salary</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:applicationId/ns4:salary</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:existingLoan</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:applicationId/ns4:existingLoan</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:reason</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:applicationId/ns4:reason</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:otherIncome</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:applicationId/ns4:otherIncome</to>
+      </copy>
+      <copy>
+        <from>$CustID</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:customerId</to>
+      </copy>
+      <copy>
+        <from>$AddressID</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:addressId/ns4:addressId</to>
+      </copy>
+      <copy>
+        <from>$BankID</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:bankId/ns4:bankId</to>
+      </copy>
+      <copy>
+        <from>$ApplicationID</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:applicationId/ns4:applicationId</to>
+      </copy>
+      <copy>
+        <from>$LoanID</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:loanId/ns4:loanId</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:loanAmt</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:loanId/ns4:loanAmtApproved</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:W2SbCustomerDetails/ns2:applicationId/ns3:Tenure * 12</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:loanId/ns4:noInstallment</to>
+      </copy>
+      <copy>
+        <from>$RateOfInterest</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeW2SB_DB_insert_InputVariable.W2SbCustomerDetailsCollection/ns4:W2SbCustomerDetails/ns4:loanId/ns4:loanInterest</to>
+      </copy>
+    </assign>
+    <invoke name="InvokeW2SB_DB" partnerLink="W2SB_DB" portType="ns1:W2SB_DB_ptt"
+            operation="insert" inputVariable="InvokeW2SB_DB_insert_InputVariable" bpelx:invokeAsDetail="no"/>
+    <assign name="AssignInputToOSB">
+      <copy>
+        <from expressionLanguage="javascript">[process.CustID,process.AddressID,process.BankID,process.ApplicationID,process.LoanID,process.LoanAmount,process.emi,process.tenure,process.Name,process.salary,process.DOB,process.Gender,process.collateral,process.status]</from>
+        <to expressionLanguage="javascript">process.InputBlockchainOSB</to>
+      </copy>
+    </assign>
+    <invoke name="InvokeBlockchainOSB" partnerLink="CallBlockchainOSB"
+            inputVariable="InputBlockchainOSB" outputVariable="OutputBlockchainOSB" bpelx:method="CreateLoan"
+            bpelx:invokeAsDetail="no"/>
+    <assign name="AssignOutputOfOSB">
+      <copy>
+        <from expressionLanguage="javascript">process.OutputBlockchainOSB.txId</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$TxnID</to>
+      </copy>
+    </assign>
+    <assign name="Assign1">
+      <copy>
+        <from>$CustID</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeUpdateTxnID_UpdateTxnID_InputVariable.UpdateTxnIDInput_msg/ns9:custid</to>
+      </copy>
+      <copy>
+        <from>$TxnID</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeUpdateTxnID_UpdateTxnID_InputVariable.UpdateTxnIDInput_msg/ns9:Txnid</to>
+      </copy>
+    </assign>
+    <invoke name="InvokeUpdateTxnID" partnerLink="UpdateTxnID"
+            portType="ns8:UpdateTxnID_ptt" operation="UpdateTxnID"
+            inputVariable="InvokeUpdateTxnID_UpdateTxnID_InputVariable" bpelx:invokeAsDetail="no"/>
+  </sequence>
+</process>

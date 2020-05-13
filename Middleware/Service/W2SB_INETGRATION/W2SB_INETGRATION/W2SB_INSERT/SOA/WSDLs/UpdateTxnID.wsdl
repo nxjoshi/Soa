@@ -1,0 +1,36 @@
+<wsdl:definitions
+     name="UpdateTxnID"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/W2SB_INETGRATION/W2SB_INSERT/UpdateTxnID"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/W2SB_INETGRATION/W2SB_INSERT/UpdateTxnID"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/UpdateTxnID"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="UpdateTxnID_plt" >
+    <plt:role name="UpdateTxnID_role" >
+      <plt:portType name="tns:UpdateTxnID_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+  <plt:partnerLinkType name="UpdateTxnID_plt" >
+    <plt:role name="UpdateTxnID_role" >
+      <plt:portType name="tns:UpdateTxnID_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/UpdateTxnID" schemaLocation="../Schemas/UpdateTxnID.xsd" />
+      </schema>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/UpdateTxnID" schemaLocation="../Schemas/UpdateTxnID.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="UpdateTxnIDInput_msg">
+        <wsdl:part name="UpdateTxnIDInput_msg" element="db:UpdateTxnIDInput"/>
+    </wsdl:message>
+    <wsdl:portType name="UpdateTxnID_ptt">
+        <wsdl:operation name="UpdateTxnID">
+            <wsdl:input message="tns:UpdateTxnIDInput_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

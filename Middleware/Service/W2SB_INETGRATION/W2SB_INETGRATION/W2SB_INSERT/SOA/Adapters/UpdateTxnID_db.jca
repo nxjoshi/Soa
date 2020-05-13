@@ -1,0 +1,11 @@
+<adapter-config name="UpdateTxnID" adapter="db" wsdlLocation="../WSDLs/UpdateTxnID.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="MARK" location="eis/db/orcl"/>
+  <endpoint-interaction portType="UpdateTxnID_ptt" operation="UpdateTxnID">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="update W2SB_CUSTOMER_DETAILS set TXN_ID=#Txnid where CUSTOMER_ID=#custid"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

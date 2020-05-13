@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<decisionServices xmlns="http://xmlns.oracle.com/bpel/rules" name="OracleRules1">
+    <ruleEngineProvider provider="Oracle_11.0.0.0.0" name="OracleRulesSDK">
+        <repository type="SCA-Archive">
+            <path>LoanBR/oracle/rules/loanbr/OracleRules1.rules</path>
+        </repository>
+    </ruleEngineProvider>
+    <decisionService name="OracleRules1_DecisionService_1" ruleEngineProviderReference="OracleRulesSDK" targetNamespace="http://xmlns.oracle.com/OracleRules1/OracleRules1_DecisionService_1">
+        <catalog>OracleRules1</catalog>
+        <pattern name="CallFunctionStateless">
+            <arguments>
+                <call>loanbr.OracleRules1.DecisionService_1</call>
+            </arguments>
+        </pattern>
+        <pattern name="CallFunctionStateful">
+            <arguments>
+                <call>loanbr.OracleRules1.DecisionService_1</call>
+            </arguments>
+        </pattern>
+    </decisionService>
+    <schemaInformation>
+        <dictionary fqnPackage="loanbr" fqnName="OracleRules1" updateNumber="75">
+            <schemaBrowser>
+                <package>org.rules</package>
+                <namespace>http://www.rules.org</namespace>
+            </schemaBrowser>
+            <schemaImport namespace="http://www.rules.org" localPart="Rules.xsd" schemaLocation="Schemas/Rules.xsd">
+                <import namespace="http://www.rules.org" localPart="Rules.xsd" schemaLocation="Schemas/Rules.xsd"/>
+            </schemaImport>
+        </dictionary>
+    </schemaInformation>
+</decisionServices>

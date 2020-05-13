@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="QueryDB"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/W2SB_OSB/QueryOSB/QueryDB"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/W2SB_OSB/QueryOSB/QueryDB"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/QueryDB"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="QueryDB_plt" >
+    <plt:role name="QueryDB_role" >
+      <plt:portType name="tns:QueryDB_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/QueryDB" schemaLocation="QueryDB_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="QueryDBSelect_inputParameters">
+        <wsdl:part name="QueryDBSelect_inputParameters" element="top:QueryDBSelect_custidInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="W2SbCustomerDetailsCollection_msg">
+        <wsdl:part name="W2SbCustomerDetailsCollection" element="top:W2SbCustomerDetailsCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="QueryDB_ptt">
+        <wsdl:operation name="QueryDBSelect">
+            <wsdl:input message="tns:QueryDBSelect_inputParameters"/>
+            <wsdl:output message="tns:W2SbCustomerDetailsCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

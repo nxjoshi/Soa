@@ -1,0 +1,15 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="MyclassService"
+     targetNamespace="http://emical/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:tns="http://emical/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="Java">
+        <plnk:role name="Myclass" portType="tns:Myclass"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://emical/" location="MyclassPort.wsdl"/>
+</wsdl:definitions>

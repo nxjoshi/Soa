@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dgm:gDiagram xmlns:dgm="http://xmlns.oracle.com/sca/soadgm">
+    <dgm:gService name="w2sb_bpelprocess_client_ep">
+        <dgm:body borderWidth="2" arcRad="20" X="21" Y="275" width="137" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="11" Y="268" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:outputPort name="w2sb_bpelprocess_client_ep" X="127" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/W2SB_INETGRATION/W2SB_INSERT/W2SB_BPELProcess#wsdl.interface(W2SB_BPELProcess)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="20" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>process</dgm:item>
+        </dgm:operations>
+    </dgm:gService>
+    <dgm:gReference name="W2SB_DB">
+        <dgm:body borderWidth="2" arcRad="20" X="991" Y="26" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="981" Y="19" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="W2SB_DB" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/db/W2SB_INETGRATION/W2SB_INSERT/W2SB_DB#wsdl.interface(W2SB_DB_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/db_adapter_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>insert</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="CallBlockchainOSB">
+        <dgm:body borderWidth="2" arcRad="20" X="991" Y="144" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="981" Y="137" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="CallBlockchainOSB" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="WADLs/CallBlockchainOSB.wadl"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/RestAdapterService20x20px.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>CreateLoan</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="UpdateTxnID">
+        <dgm:body borderWidth="2" arcRad="20" X="991" Y="262" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="981" Y="255" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="UpdateTxnID" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/db/W2SB_INETGRATION/W2SB_INSERT/UpdateTxnID#wsdl.interface(UpdateTxnID_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/db_adapter_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>UpdateTxnID</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="CallLoanBR">
+        <dgm:body borderWidth="2" arcRad="20" X="991" Y="380" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="981" Y="373" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="CallLoanBR" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/W2SB_INETGRATION/LoanBR/LoanMediator#wsdl.interface(execute_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>execute</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gReference name="Java">
+        <dgm:body borderWidth="2" arcRad="20" X="991" Y="498" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="981" Y="491" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="Java" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://emical/#wsdl.interface(Myclass)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>emi_calculator</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gComponent name="W2SB_BPELProcess">
+        <dgm:body borderWidth="2" arcRad="20" X="349" Y="260" width="130" height="186">
+            <dgm:borderColor r="69" g="113" b="140"/>
+            <dgm:lightBgColor r="166" g="208" b="230"/>
+            <dgm:darkBgColor r="99" g="162" b="201"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="339" Y="253" width="150" height="202">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="w2sb_bpelprocess_client" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/W2SB_INETGRATION/W2SB_INSERT/W2SB_BPELProcess#wsdl.interface(W2SB_BPELProcess)"/>
+        <dgm:outputPort name="W2SB_DB" X="120" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/db/W2SB_INETGRATION/W2SB_INSERT/W2SB_DB#wsdl.interface(W2SB_DB_ptt)"/>
+        <dgm:outputPort name="CallBlockchainOSB" X="120" Y="40" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="WADLs/CallBlockchainOSB.wadl"/>
+        <dgm:outputPort name="UpdateTxnID" X="120" Y="65" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/pcbpel/adapter/db/W2SB_INETGRATION/W2SB_INSERT/UpdateTxnID#wsdl.interface(UpdateTxnID_ptt)"/>
+        <dgm:outputPort name="CallLoanBR" X="120" Y="90" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/W2SB_INETGRATION/LoanBR/LoanMediator#wsdl.interface(execute_ptt)"/>
+        <dgm:outputPort name="Java" X="120" Y="115" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://emical/#wsdl.interface(Myclass)"/>
+        <dgm:outputPort name="ManagerApproval.TaskService" X="120" Y="140" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/bpel/workflow/taskService#wsdl.interface(TaskService)" callbackInterface="http://xmlns.oracle.com/bpel/workflow/taskService#wsdl.interface(TaskServiceCallback)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/bpel/shared/plugins/resources/images/soa/process_20x20.png" X="10" Y="4" width="20" height="20"/>
+    </dgm:gComponent>
+    <dgm:gComponent name="ManagerApproval">
+        <dgm:body borderWidth="2" arcRad="20" X="670" Y="568" width="130" height="61">
+            <dgm:borderColor r="109" g="136" b="65"/>
+            <dgm:lightBgColor r="201" g="224" b="155"/>
+            <dgm:darkBgColor r="157" g="195" b="93"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="660" Y="561" width="150" height="77">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="TaskService" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/bpel/workflow/taskService#wsdl.interface(TaskService)" callbackInterface="http://xmlns.oracle.com/bpel/workflow/taskService#wsdl.interface(TaskServiceCallback)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/workflow/resources/images/humantask_20x20.png" X="10" Y="4" width="20" height="20"/>
+    </dgm:gComponent>
+    <dgm:gWireLink source="w2sb_bpelprocess_client_ep" target="W2SB_BPELProcess/w2sb_bpelprocess_client" width="2">
+        <dgm:gSegment X1="168" Y1="285" X2="339" Y2="285"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="W2SB_BPELProcess/W2SB_DB" target="W2SB_DB" width="2">
+        <dgm:gSegment X1="489" Y1="285" X2="513" Y2="285"/>
+        <dgm:gSegment X1="513" Y1="285" X2="513" Y2="36"/>
+        <dgm:gSegment X1="513" Y1="36" X2="981" Y2="36"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="W2SB_BPELProcess/CallBlockchainOSB" target="CallBlockchainOSB" width="2">
+        <dgm:gSegment X1="489" Y1="310" X2="528" Y2="310"/>
+        <dgm:gSegment X1="528" Y1="310" X2="528" Y2="154"/>
+        <dgm:gSegment X1="528" Y1="154" X2="981" Y2="154"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="W2SB_BPELProcess/UpdateTxnID" target="UpdateTxnID" width="2">
+        <dgm:gSegment X1="489" Y1="335" X2="543" Y2="335"/>
+        <dgm:gSegment X1="543" Y1="335" X2="543" Y2="272"/>
+        <dgm:gSegment X1="543" Y1="272" X2="981" Y2="272"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="W2SB_BPELProcess/CallLoanBR" target="CallLoanBR" width="2">
+        <dgm:gSegment X1="489" Y1="360" X2="543" Y2="360"/>
+        <dgm:gSegment X1="543" Y1="360" X2="543" Y2="390"/>
+        <dgm:gSegment X1="543" Y1="390" X2="981" Y2="390"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="W2SB_BPELProcess/Java" target="Java" width="2">
+        <dgm:gSegment X1="489" Y1="385" X2="528" Y2="385"/>
+        <dgm:gSegment X1="528" Y1="385" X2="528" Y2="508"/>
+        <dgm:gSegment X1="528" Y1="508" X2="981" Y2="508"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="W2SB_BPELProcess/ManagerApproval.TaskService" target="ManagerApproval/TaskService" width="2">
+        <dgm:gSegment X1="489" Y1="410" X2="513" Y2="410"/>
+        <dgm:gSegment X1="513" Y1="410" X2="513" Y2="593"/>
+        <dgm:gSegment X1="513" Y1="593" X2="660" Y2="593"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+</dgm:gDiagram>

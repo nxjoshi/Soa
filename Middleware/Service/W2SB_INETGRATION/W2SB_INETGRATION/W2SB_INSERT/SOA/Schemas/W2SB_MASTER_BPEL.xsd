@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.W2SB_MASTER_BPEL.org"
+            targetNamespace="http://www.W2SB_MASTER_BPEL.org" elementFormDefault="qualified">
+            
+    <xsd:annotation>
+      <xsd:documentation>A sample element</xsd:documentation>
+    </xsd:annotation>
+   <xsd:complexType name="W2SbAddresses">
+      <xsd:sequence>
+         <xsd:element name="line1" type="xsd:string"/>
+         <xsd:element name="line2" type="xsd:string"/>
+         <xsd:element name="state" type="xsd:string"/>
+         <xsd:element name="country" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="W2SbBankDetails">
+      <xsd:sequence>
+         <xsd:element name="bankName" type="xsd:string"/>
+         <xsd:element name="acNo" type="xsd:decimal"/>
+         <xsd:element name="acType" type="xsd:string"/>
+         <xsd:element name="branchName" type="xsd:string"/>
+         <xsd:element name="currentBalance" type="xsd:decimal"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="W2SbApplicationDetails">
+      <xsd:sequence>
+         <xsd:element name="category" type="xsd:string"/>
+         <xsd:element name="loanAmt" type="xsd:decimal"/>
+         <xsd:element name="Tenure" type="xsd:decimal"/>
+         <xsd:element name="occupation" type="xsd:string"/>
+         <xsd:element name="salary" type="xsd:decimal"/>
+         <xsd:element name="existingLoan" type="xsd:string"/>
+         <xsd:element name="reason" type="xsd:string"/>
+         <xsd:element name="otherIncome" type="xsd:decimal"/>
+         <xsd:element name="Mortgage" type="xsd:string"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="W2SbLoanDetails">
+      <xsd:sequence>
+         <xsd:element name="loanAmtApproved" type="xsd:decimal"/>
+         <xsd:element name="loanInterest" type="xsd:decimal"/>
+         <xsd:element name="emi" type="xsd:decimal"/>
+         <xsd:element name="noInstallment" type="xsd:decimal"/>
+      </xsd:sequence>
+   </xsd:complexType>
+</xsd:schema>

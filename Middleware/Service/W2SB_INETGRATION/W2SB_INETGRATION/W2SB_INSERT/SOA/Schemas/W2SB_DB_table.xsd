@@ -1,0 +1,76 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/W2SB_DB" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/W2SB_DB" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="W2SbCustomerDetailsCollection" type="W2SbCustomerDetailsCollection"/>
+   <xs:complexType name="W2SbCustomerDetailsCollection">
+      <xs:sequence>
+         <xs:element name="W2SbCustomerDetails" type="W2SbCustomerDetails" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="W2SbCustomerDetails">
+      <xs:sequence>
+         <xs:element name="customerId" type="xs:decimal"/>
+         <xs:element name="name" type="xs:string" minOccurs="0" nillable="true"/>
+         <xs:element name="dob" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="gender" type="string100" minOccurs="0"/>
+         <xs:element name="phNo" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="email" type="string100" minOccurs="0"/>
+         <xs:element name="txnId" type="string200" minOccurs="0"/>
+         <xs:element name="loanStatus" type="string100" minOccurs="0" nillable="true"/>
+         <xs:element name="addressId" type="W2SbAddresses" minOccurs="0" nillable="true"/>
+         <xs:element name="bankId" type="W2SbBankDetails" minOccurs="0" nillable="true"/>
+         <xs:element name="applicationId" type="W2SbApplicationDetails" minOccurs="0" nillable="true"/>
+         <xs:element name="loanId" type="W2SbLoanDetails" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="W2SbAddresses">
+      <xs:sequence>
+         <xs:element name="addressId" type="xs:decimal"/>
+         <xs:element name="line1" type="string200" minOccurs="0"/>
+         <xs:element name="line2" type="string200" minOccurs="0"/>
+         <xs:element name="state1" type="string100" minOccurs="0"/>
+         <xs:element name="country" type="string100" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="W2SbBankDetails">
+      <xs:sequence>
+         <xs:element name="bankId" type="xs:decimal"/>
+         <xs:element name="bankName" type="string100" minOccurs="0"/>
+         <xs:element name="acNo" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="acType" type="string100" minOccurs="0"/>
+         <xs:element name="branchName" type="string100" minOccurs="0"/>
+         <xs:element name="currentBalance" type="xs:decimal" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="W2SbApplicationDetails">
+      <xs:sequence>
+         <xs:element name="applicationId" type="xs:decimal"/>
+         <xs:element name="category" type="string100" minOccurs="0"/>
+         <xs:element name="loanAmt" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="occupation" type="string100" minOccurs="0"/>
+         <xs:element name="salary" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="existingLoan" type="string100" minOccurs="0"/>
+         <xs:element name="reason" type="string200" minOccurs="0"/>
+         <xs:element name="otherIncome" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="mortgage" type="string100" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="W2SbLoanDetails">
+      <xs:sequence>
+         <xs:element name="loanId" type="xs:decimal"/>
+         <xs:element name="loanAmtApproved" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="loanInterest" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="emi" type="xs:decimal" minOccurs="0"/>
+         <xs:element name="noInstallment" type="xs:decimal" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string100">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="100"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string200">
+      <xs:restriction base="xs:string">
+         <xs:maxLength value="200"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

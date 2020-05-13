@@ -1,0 +1,37 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    	<soap:Body>
+        		<ns1:W2SBDataCollections xmlns:ns1="http://www.W2SB_BPEL_SCHEMA.org">
+            			<ns1:W2SbCustomerDetails>
+                				<ns1:name>ashok</ns1:name>
+                				<ns1:dob>1996-02-10</ns1:dob>
+                				<ns1:gender>Male</ns1:gender>
+                				<ns1:phNo>1234567890</ns1:phNo>
+                				<ns1:email>ashok@gmail.com</ns1:email>
+                				<ns1:addressId xmlns:ns2="http://www.W2SB_MASTER_BPEL.org">
+                    					<ns2:line1>1st cross</ns2:line1>
+                    					<ns2:line2>ks layout, bangalore</ns2:line2>
+                    					<ns2:state>karnataka</ns2:state>
+                    					<ns2:country>india</ns2:country>
+                </ns1:addressId>
+                				<ns1:bankId xmlns:ns2="http://www.W2SB_MASTER_BPEL.org">
+                    					<ns2:bankName>sbi</ns2:bankName>
+                    					<ns2:acNo>2321432424</ns2:acNo>
+                    					<ns2:acType>saving</ns2:acType>
+                    					<ns2:branchName>isro layout</ns2:branchName>
+                    					<ns2:currentBalance>3121</ns2:currentBalance>
+                </ns1:bankId>
+                				<ns1:applicationId xmlns:ns2="http://www.W2SB_MASTER_BPEL.org">
+                    					<ns2:category>Home</ns2:category>
+                    					<ns2:loanAmt>100000</ns2:loanAmt>
+                    					<ns2:Tenure>5</ns2:Tenure>
+                    					<ns2:occupation>IT</ns2:occupation>
+                    					<ns2:salary>23232</ns2:salary>
+                    					<ns2:existingLoan>No</ns2:existingLoan>
+                    					<ns2:reason>build</ns2:reason>
+                    					<ns2:otherIncome>0</ns2:otherIncome>
+<ns2:Mortgage>Land</ns2:Mortgage>
+                </ns1:applicationId>
+            </ns1:W2SbCustomerDetails>
+        </ns1:W2SBDataCollections>
+    </soap:Body>
+</soap:Envelope>
