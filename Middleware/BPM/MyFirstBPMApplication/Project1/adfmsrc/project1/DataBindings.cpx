@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://xmlns.oracle.com/adfm/application" version="12.2.1.22.48" id="DataBindings"
+             SeparateXMLFiles="false" Package="project1" ClientType="Generic">
+  <pageMap>
+    <page path="/ApprovalHumanTask_TaskDetails.jspx" usageId="project1_ApprovalHumanTask_TaskDetailsPageDef"/>
+    <page path="/ApprovalHumanTask_TaskNotification.jspx" usageId="project1_ApprovalHumanTask_TaskNotificationPageDef"/>
+  </pageMap>
+  <pageDefinitionUsages>
+    <page id="project1_ApprovalHumanTask_TaskDetailsPageDef"
+          path="project1.pageDefs.ApprovalHumanTask_TaskDetailsPageDef"/>
+    <page id="project1_ApprovalHumanTask_TaskNotificationPageDef"
+          path="project1.pageDefs.ApprovalHumanTask_TaskNotificationPageDef"/>
+  </pageDefinitionUsages>
+  <dataControlUsages>
+    <dc id="Project1_ApprovalHumanTask" path="project1.Project1_ApprovalHumanTask"/>
+  </dataControlUsages>
+</Application>

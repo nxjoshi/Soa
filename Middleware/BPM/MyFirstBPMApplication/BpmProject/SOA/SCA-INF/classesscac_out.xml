@@ -1,0 +1,43 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Faults>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line/>
+      <col/>
+      <file>HumanTasks/ApprovalHumanTask.task</file>
+      <name>HumanTasks/ApprovalHumanTask.task</name>
+      <fix/>
+      <msg>Task title not specified</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line/>
+      <col/>
+      <file>HumanTasks/ApprovalHumanTask.task</file>
+      <name>HumanTasks/ApprovalHumanTask.task</name>
+      <fix/>
+      <msg>Error assignee not specified</msg>
+   </Fault>
+   <Fault>
+      <severity>error</severity>
+      <loc/>
+      <line/>
+      <col/>
+      <file>C:\JDeveloper\mywork\MyFirstBPMApplication\BpmProject\SOA\processes\Process.bpmn</file>
+      <name>C:\JDeveloper\mywork\MyFirstBPMApplication\BpmProject\SOA\processes\Process.bpmn</name>
+      <fix/>
+      <msg>Node 'Registration' has no implementation defined</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line/>
+      <col/>
+      <file>HumanTasks/EmployeeRegistration.task</file>
+      <name>HumanTasks/EmployeeRegistration.task</name>
+      <fix/>
+      <msg>Error assignee not specified</msg>
+   </Fault>
+</Faults>

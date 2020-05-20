@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<JavaBean xmlns="http://xmlns.oracle.com/adfm/beanmodel" version="12.2.1.22.48" id="ApprovalHumanTaskPayloadType"
+          Package="Project1_ApprovalHumanTask" BeanClass="Project1_ApprovalHumanTask.ApprovalHumanTaskPayloadType"
+          isJavaBased="false">
+  <AccessorAttribute id="EmployeeBusinessObject" IsCollection="true"
+                     BeanClass="Project1_ApprovalHumanTask.EmployeeBusinessObjectType"
+                     CollectionBeanClass="Project1_ApprovalHumanTask.EmployeeBusinessObjectType_EmployeeBusinessObject_Operations">
+    <Properties>
+      <Property Name="minOccurs" Value="1"/>
+      <Property Name="maxOccurs" Value="1"/>
+      <Property Name="LABEL" Value="Employee Business Object"/>
+      <Property Name="nillable" Value="false"/>
+      <Property Name="originalName" Value="EmployeeBusinessObject"/>
+      <Property Name="targetNamespace" Value="http://xmlns.oracle.com/bpm/bpmobject/AppModule/EmployeeBusinessObject"/>
+    </Properties>
+  </AccessorAttribute>
+</JavaBean>
