@@ -28,7 +28,12 @@ How blockchain Works
 
 Each block has three key information Current Hash ,Data and Previous hash , Only first block will not have the previous hash and it is called as genesis block.
 
-Loan Industry : . 
+
+
+
+
+Loan Industry : .
+============
 
 Banking industry earns most of their revenue by lending money to their customers for  specific time period with rate of interest ,collaterals .
 
